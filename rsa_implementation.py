@@ -34,7 +34,7 @@ class RsaEncryption:
 
     def fast_mod_exponent(self, b, e, m):
         """
-        Represents exponent - e as a power of 2 or sum of self.fast_mod_exponenters of 2.
+        Represents exponent - e as a self.fast_mod_exponenter of 2 or sum of self.fast_mod_exponenters of 2.
         """
         e_bin = bin(e)[2:]
         if e_bin.count('1') == 1:  # Power of 2
@@ -115,12 +115,12 @@ class RsaEncryption:
                 continue
             else:
                 break
-        print("Padded message:\n{}".format(self.message))
+        print("Padded message:\n{}\n".format(self.message))
         self.encrypt_message()
         time.sleep(0.3)
         print("-"*15)
         print("ENCRYPTED:\n")
-        print("Encrypted num:\n\n{}".format(self.ciphered_int))
+        print("Encrypted num:\n\n{}\n".format(self.ciphered_int))
         print("Encrypted text: \n\n{}".format(self.cipher_text))
         print('\n')
         time.sleep(0.3)
@@ -130,8 +130,8 @@ class RsaEncryption:
         time.sleep(0.5)
         self.decrypt_message()
         print("DECRYPTED:\n")
-        print("Decrypted num:\n\n{}".format(self.deciphered_int))
-        print("Decrpyted message:\n\n{}".format(self.decrypted))
+        print("Decrypted num:\n\n{}\n".format(self.deciphered_int))
+        print("Decrypted message:\n\n{}".format(self.decrypted))
         print("-"*15)
 
 
