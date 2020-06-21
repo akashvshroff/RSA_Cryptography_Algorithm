@@ -1,6 +1,7 @@
 from generate_primes import *
 import string
 import random
+import time
 
 
 class RsaEncryption:
@@ -30,6 +31,34 @@ class RsaEncryption:
             res += chr(n % 256)
             n //= 256
         return res[::-1]
+
+    def fast_mod_exponent(self, b, e, m):
+        """
+        Represents exponent - e as a power of 2 or sum of self.fast_mod_exponenters of 2.
+        """
+        e_bin = bin(e)[2:]
+        if e_bin.count('1') == 1:  # Power of 2
+            k = int(math.log2(e))
+            c = b % m
+            for i in range(0, k):
+                c = (c * c) % m
+            return c
+        else:
+            set_pos = []
+            for i, l in enumerate(e_bin):
+                if l == '1':
+                    set_pos.append(len(e_bin)-i-1)
+            max_set = max(set_pos)
+            c = b % m
+            prod = []
+            for i in range(max_set+1):
+                if i in set_pos:
+                    prod.append(c)
+                c = (c*c) % m
+            product = 1
+            for x in prod:
+                product = (product * x) % m
+            return product
 
     def euclid_gcd(self, a, b):
         return self.euclid_gcd(b, a % b) if b > 0 else a
@@ -65,12 +94,12 @@ class RsaEncryption:
 
     def encrypt_message(self):
         self.message_int = self.convert_to_int(self.message)
-        self.ciphered_int = pow(self.message_int, self.e, self.n)
+        self.ciphered_int = self.fast_mod_exponent(self.message_int, self.e, self.n)
         self.cipher_text = self.convert_to_str(self.ciphered_int)
 
     def decrypt_message(self):
         encrypted_int = self.convert_to_int(self.cipher_text)
-        self.deciphered_int = pow(encrypted_int, self.d, self.n)
+        self.deciphered_int = self.fast_mod_exponent(encrypted_int, self.d, self.n)
         self.decrypted = self.convert_to_str(self.deciphered_int)
 
     def driver(self):
@@ -88,17 +117,22 @@ class RsaEncryption:
                 break
         print("Padded message:\n{}".format(self.message))
         self.encrypt_message()
+        time.sleep(0.3)
         print("-"*15)
-        print("Encrypted:\n")
-        print("Encrypted num:\n{}".format(self.ciphered_int))
-        print("Encrypted text: \n{}".format(self.cipher_text))
+        print("ENCRYPTED:\n")
+        print("Encrypted num:\n\n{}".format(self.ciphered_int))
+        print("Encrypted text: \n\n{}".format(self.cipher_text))
         print('\n')
+        time.sleep(0.3)
         print("-"*15)
         print("Now decrypting, assuming you only send the ciphered text.")
+        print("-"*15)
+        time.sleep(0.5)
         self.decrypt_message()
-        print("Decrypted:\n")
-        print("Decrypted num:\n{}".format(self.deciphered_int))
-        print("Decrpyted message:\n{}".format(self.decrypted))
+        print("DECRYPTED:\n")
+        print("Decrypted num:\n\n{}".format(self.deciphered_int))
+        print("Decrpyted message:\n\n{}".format(self.decrypted))
+        print("-"*15)
 
 
 def main():
