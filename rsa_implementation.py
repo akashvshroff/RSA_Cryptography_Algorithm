@@ -12,6 +12,7 @@ class RsaEncryption:
         self.cipher_text = ''
         self.deciphered_int = 0
         self.decrypted = ''
+        self.length_message = length_message//8
         self.length_primes = length_message//2
         self.n, self.p, self.q, self.d, self.e, self.phi = 0, 0, 0, 0, 65537, 0
         self.prime_generator = GenPrimes(length=self.length_primes)
@@ -83,7 +84,7 @@ class RsaEncryption:
         assert((self.e*self.d) % self.phi == 1)
 
     def check_message(self, message):
-        if len(message) > 255:
+        if len(message) > self.length_message-1:
             return False
         else:
             message += '*'
