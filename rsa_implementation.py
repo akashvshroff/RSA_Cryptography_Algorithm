@@ -34,7 +34,7 @@ class RsaEncryption:
 
     def fast_mod_exponent(self, b, e, m):
         """
-        Represents exponent - e as a self.fast_mod_exponenter of 2 or sum of self.fast_mod_exponenters of 2.
+        Represents exponent - e as a power of 2 or sum of self.fast_mod_exponenters of 2.
         """
         e_bin = bin(e)[2:]
         if e_bin.count('1') == 1:  # Power of 2
